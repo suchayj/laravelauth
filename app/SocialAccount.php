@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SocialAccount extends Model
 {
+	protected $table = 'social_accounts';
+
 	protected $fillable = [
 			'user_id',
 			'provider_user_id',
@@ -13,7 +15,7 @@ class SocialAccount extends Model
 	];
 
 	/**
-	 * Socal Login belongs to User
+	 * Social Login belongs to User
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */

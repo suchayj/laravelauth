@@ -6,11 +6,17 @@ use Laravel\Socialite\Contracts\User as ProviderUser;
 
 class SocialAccountService
 {
+	/**
+	 * Create or Get Registered User
+	 *
+	 * @param ProviderUser $providerUser
+	 * @return \Illuminate\Http\RedirectResponse|static
+	 */
 	public function createOrGetUser(ProviderUser $providerUser)
 	{
 		$account = SocialAccount::whereProvider('facebook')->whereProviderUserId($providerUser->getId())->first();
 
-		if(isset($account))
+		if($account)
 		{
 			return $account->user;
 		}
@@ -20,21 +26,21 @@ class SocialAccountService
 					'provider_user_id' => $providerUser->getId(),
 					'provider'         => 'facebook',
 			]);
-		}
 
-		$user = User::whereEmail($providerUser->getEmail())->first();
+			$user = User::whereEmail($providerUser->getEmail())->first();
 
-		if(!$user)
-		{
-			$user = User::create([
-					'email'    => $providerUser->getEmail(),
-					'name'     => $providerUser->getName(),
-					'password' => '',
-			]);
+			if(!$user)
+			{
+				$user = User::create([
+						'email' => $providerUser->getEmail(),
+						'name'  => $providerUser->getName(),
+				]);
+			}
+
+			$account->user()->associate($user);
+			$account->save();
 
 			return $user;
 		}
-
-		return redirect()->back();
 	}
 }

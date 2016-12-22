@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\SocialAccountService;
-use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
-
+	
 	/**
 	 * Redirect User to facebook console
 	 *
@@ -28,15 +27,17 @@ class SocialAuthController extends Controller
 	 */
 	public function callback(SocialAccountService $service)
 	{
-		dd(Socialite::driver('facebook')->user());
+		#dd(Socialite::driver('facebook')->user());
 
-		#$user = $service->createOrGetUser(Socialite::driver('facebook')->user());
+		$user = $service->createOrGetUser(Socialite::driver('facebook')->user());
 
-		#if(isset($user))
-		#{
-		#	auth()->login($user);
-		#
-		#	return redirect()->route('home');
-		#}
+		if(isset($user))
+		{
+			auth()->login($user);
+
+			return redirect()->to('/home');
+		}
+
+		return redirect()->back();
 	}
 }
