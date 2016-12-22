@@ -36,9 +36,12 @@ return [
     ],
 
     'facebook' => [
-            'client_id' => env('FACEBOOK_CLIENT_ID'),
-            'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+            'client_id' => '238615916561109',
+            'client_secret' => 'b2502384754e6634ee7794eadb5575fd',
             'redirect' => 'http://laravelauth.dev/callback',
+			#'client_id' => env('FACEBOOK_CLIENT_ID'),
+			#'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+			#'redirect' => 'http://laravelauth.dev/callback',
     ],
 
 ];
